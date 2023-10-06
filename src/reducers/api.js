@@ -8,104 +8,87 @@ export const storeApi = createApi({
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3000/'}),
     endpoints: (builder) => ({
         
-        getProducts :builder.query({
-            query: (id)=> 'api/products/'
+        addProduct: builder.mutation({
+            query: (body)=>({
+                url: 'api/products',
+                method: "POST",
+                body: body
+            })
         }),
-        getProductById :builder.query({
+        getProducts: builder.query({
+            query: ()=> 'api/products/'
+        }),
+        getProductById: builder.query({
             query: (id)=> 'api/products/'+id
+        }),
+        editProduct: builder.mutation({
+            query: (body)=>({
+                url: 'api/products'+body.id,
+                method: "POST",
+                body: body
+            })
         }),
         deleteProduct: builder.mutation({
             query: (id)=>({
-                url:'api/products/'+id,
-                method: "DELETE"
-            })
-        }),
-        addProduct: builder.mutation({
-            query: (body)=>({
-                url:'api/products'+ id,
-                method:"POST",
-                body:body
-            })
-        }),
-        editProduct : builder.mutation({
-            query(data){
-                const {id, ...body}=data;
-                return {
-                    url: 'api/products/'+id,
-                    method:"PUT",
-                    body
-                }
-            }
-        }),
-        getUser :builder.query({
-            query: (id)=> 'api/user/'
-        }),
-        getUserById :builder.query({
-            query: (id)=> 'api/user/'+id
-        }),
-        deleteUser: builder.mutation({
-            query: (id)=>({
-                url:'api/user/'+id,
+                url: 'api/products/'+id,
                 method: "DELETE"
             })
         }),
         addUser: builder.mutation({
             query: (body)=>({
-                url:'api/user'+ id,
-                method:"POST",
-                body:body
+                url: 'api/user'+id,
+                method: "POST",
+                body: body
             })
         }),
-        // editUser : builder.mutation({
-        //     query(data){
-        //         const {id, ...body}=data;
-        //         return {
-        //             url: 'api/user/'+id,
-        //             method:"PUT",
-        //             body
-        //         }
-        //     }
-        // }),
-        getOrdersById: builder.query({
-            query: (id)=> 'api/cart/orders/'+id
+        getUsers :builder.query({
+            query: ()=> 'api/user/'
+        }),
+        getUserById :builder.query({
+            query: (id)=> 'api/user/'+id
+        }),
+        editUser : builder.mutation({
+            query: (body)=>({
+                url: 'api/user/'+body.id,
+                method: "POST",
+                body: body
+            }) 
+        }),
+        deleteUser: builder.mutation({
+            query: (id)=>({
+                url: 'api/user/'+id,
+                method: "DELETE"
+            })
         }),
         getCartById: builder.query({
-            query: (id)=> 'api/cart/'+ id
+            query: (id)=> 'api/cart/'+id
         }),
-        editCart : builder.mutation({
-            query(data){
-                const {id, ...body}=data;
-                return {
-                    url: 'api/cart/'+id,
-                    method:"PUT",
-                    body
-                }
-            }
+        updateCart: builder.mutation({
+            query: (body)=>({
+                url: 'api/cart/'+body.id,
+                method: "POST",
+                body: body
+            })
         }),
-        addCart : builder.mutation({
-            query(data){
-                const {id, ...body}=data;
-                return {
-                    url: 'api/cart/',
-                    method:"POST",
-                    body
-                }
-            }
+        deleteCart: builder.mutation({
+            query: (id)=>({
+                url: 'api/cart/'+id,
+                method: 'DELETE'
+            })
         }),
-        deleteCart : builder.mutation({
-            query(data){
-                const {id, ...body}=data;
-                return {
-                    url: 'api/cart/'+id,
-                    method:"DELETE",
-                    body
-                }
-            }
+        getUsersCarts: builder.query({
+            query: (id)=> 'api/cart/user/'+id
         }),
-    
-
-
-
+        getUsersActiveCart: builder.query({
+            query: (id)=> `api/cart/user/${id}/active`
+        }),
+        editCartProduct: builder.mutation({
+            query: (body)=>({
+                url: `api/cart/${body.cartId}/${body.productId}`,
+                method: "POST",
+                body: body
+            })
+        })
     }),
 })
 
@@ -141,5 +124,4 @@ const dataSlice = createSlice({
 
 export default dataSlice.reducer;
 
-export const {useGetUserQuery, useAddUserMutation, useDeleteUserMutation, useEditProductMutation, useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditCartMutation, useAddCartMutation, useDeleteCartMutation, useGetCartByIdQuery, useGetOrdersByIdQuery} = storeApi
-
+export const {useAddProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditProductMutation, useDeleteProductMutation, useAddUserMutation, useGetUsersQuery, useGetUserByIdQuery, useEditUserMutation, useDeleteUserMutation, useGetCartByIdQuery, useUpdateCartMutation, useDeleteCartMutation, useGetUsersCartsQuery, useGetUsersActiveCartQuery, useEditCartProductMutation} = storeApi

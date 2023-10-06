@@ -14,5 +14,5 @@
     justify-content: center;
     object-fit: cover;
     overflow: hidden;
-    transition: all 1s ease-out;
+    transition: transform 1s ease-out;
 }

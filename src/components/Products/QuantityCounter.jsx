@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+export default function QuantityCounter() {
+   function handleSubmit(event) {
+      event.preventDefault();
+   }
 
-function QuantityCounter() {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  return (
-    <div>
-      <button className="qtyButton" onClick={handleDecrement}>-</button>
-      <span className='qtyNumButton'>{quantity}</span>
-      <button className="qtyButton" onClick={handleIncrement}>+</button>
-    </div>
-  );
+   return (
+      <div>
+         <form action="">
+            <select name="cartQuantity" id="cartQuantity">
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+               <option value="6">6</option>
+               <option value="7">7</option>
+               <option value="8">8</option>
+               <option value="9">9</option>
+               <option value="10">10</option>
+               <option value="11">11</option>
+               <option value="12">12</option>
+            </select>
+            <input
+               type="submit"
+               name="addToCart"
+               id="addToCart"
+               value="Add to Cart"
+            />
+         </form>
+      </div>
+   );
 }
-
-export default QuantityCounter;

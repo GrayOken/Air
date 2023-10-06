@@ -6,9 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt")
 
 router.post("/register", async (req, res, next)=>{
-
     const salt_rounds = 5;
-
     const hashedPassword = await bcrypt.hash(req.body.password, salt_rounds)
 
     try {
@@ -18,7 +16,7 @@ router.post("/register", async (req, res, next)=>{
                 password: hashedPassword,
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
-                role: req.body.role,
+                role: "user",
             }
         })
 
@@ -35,8 +33,8 @@ router.post("/register", async (req, res, next)=>{
 
 router.post("/login", async (req, res, next)=>{
     const salt_rounds = 5;
-
     const hashedPassword = await bcrypt.hash(req.body.password, salt_rounds)
+    
     try {
         const user = await prisma.user.findUnique({
             where:{

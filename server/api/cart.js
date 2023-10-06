@@ -2,85 +2,21 @@ const express = require('express');
 const router = express.Router();
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
-
-router.get('/', async (req,res,next)=>{
+// get cart by cart id
+router.get('/:id', async (req, res, next)=>{
     try{
-        const allCarts = await prisma.cart.findMany();
-        res.send(allCarts)
-    }catch(error){
-        next(error)
-    }
-})
-
-router.get('/orders/:id', async (req, res, next) => {
-   console.log(req.params.id)
-    try {
-        const orders = await prisma.user.findUnique({
+        const cartId = await prisma.cart.findUnique({
             where:{
                 id: Number(req.params.id)
-            },
-            include: {
-                Cart: {
-                    include: {
-                        CartProduct: {
-                            include: {
-                                Product: true
-                            }
-                        }
-                    }
-                }
             }
-        });
-        res.send(orders.Cart.filter((i)=> i.is_cart === false))
-    } catch (error) {
-        next(error)
-    }
-})
-
-router.get('/:id', async (req,res,next)=>{
-    try{
-        const userById = await prisma.user.findUnique({
-            where:{
-                id: Number(req.params.id)
-            },
-            include:{
-                Cart: true
-            }
-        });
-        res.send(userById.Cart.find((i)=> i.is_cart === true))
-    }catch(error){
-        next(error)
-    }
-})
-
-
-router.post('/', async (req,res,next)=>{
-    try{
-        const cart = await prisma.cart.create({
-            data: req.body
         })
-        res.send(cart)
+        res.send(cartId)
     }catch(error){
         next(error)
     }
 })
-
-
-router.delete('/:id', async (req,res,next)=>{
-    try{
-        const cart = await prisma.cart.delete({
-            where:{
-                id: Number(req.params.id)
-            }
-        });
-        res.send(cart)
-    }catch(error){
-        next(error)
-    }
-})
-
-
-router.put('/:id', async (req,res,next)=>{
+// update cart by cart id
+router.put('/:id', async (req, res, next)=>{
     try{
         const cart = await prisma.cart.update({
             where:{
@@ -93,5 +29,65 @@ router.put('/:id', async (req,res,next)=>{
         next(error)
     }
 })
-
+// delete cart by cart id
+router.delete('/:id', async (req, res, next)=>{
+    try{
+        const cart = await prisma.cart.delete({
+            where:{
+                id: Number(req.params.id)
+            }
+        });
+        res.send(cart)
+    }catch(error){
+        next(error)
+    }
+})
+// Gets all carts by userId
+router.get('/user/:userId', async (req, res, next)=>{
+    try{
+        const userCarts = await prisma.cart.findMany({
+            where:{
+                userId: Number(req.params.userId)
+            }
+        })
+        res.send(userCarts)
+    }catch(error){
+        next(error)
+    }
+}) 
+// Get users cart where cart.is_cart === true
+router.get('/user/:userId/active', async (req, res, next)=>{
+    try{
+        const active = await prisma.cart.upsert({
+            where:{
+                is_cart: true,
+                userId: Number(req.params.userId)
+            },
+            create:{
+                is_cart: true,
+                userId: Number(req.params.userId)
+            }
+        })
+        res.send(active)
+    }catch(error){
+        next(error)
+    }
+})
+// Edit a product in cart
+router.post('/:cartId/:productId', async (req, res, next)=>{
+    try{
+        const cartProduct = await prisma.cartProduct.upsert({
+            where:{
+                cartId: req.params.cartId,
+                productId: req.params.productId,
+            },
+            update:{
+                quantity: req.body.quantity
+            }
+        })
+        res.send(cartProduct)
+    }catch(error){
+        next(error)
+    }
+})
 module.exports = router;

@@ -1,83 +1,71 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import ProductCard from "../components/Products/ProductCard";
-import PriceSlider from "../components/Products/PriceSlider";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useGetProductsQuery } from "../reducers/api";
+import ProductCard from "../components/Products/ProductCard";
+import FilterMenu from "../components/Products/FilterMenu";
+import { setAllCountries } from "../reducers/products";
 
+export default function Products() {
+   const [filterProducts, setFilterProducts] = useState([]);
+   const dispatch = useDispatch();
+   const { data: products } = useGetProductsQuery();
+   const searchFilter = useSelector((state) => state.product.searchFilter);
+   const countryFilter = useSelector((state) => state.product.countryFilter);
+   const priceFilter = useSelector((state) => state.product.priceFilter);
 
-function ProductsPage() {
-    const [filterProducts, setFilterProducts] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("")
-    const [priceRange, setPriceRange] = useState([0, 50]);
-    const { data: products = [] } = useGetProductsQuery();
-    const [priceRangeText, setPriceRangeText] = useState(`$${priceRange[0]} - $${priceRange[1]}`);
+   useEffect(() => {
+      handleFilter();
+      dispatch(setAllCountries(uniqueCountries(products)));
+   }, [searchFilter, countryFilter, priceFilter, products]);
 
+   function handleFilter() {
+      let filteredProducts = products;
+      console.log(priceFilter.value);
+      console.log(countryFilter.value);
+      console.log(searchFilter.value);
+      if (searchFilter.is_active) {
+         filteredProducts.filter((product) =>
+            product.name
+               .toLowerCase()
+               .includes(searchFilter.value.toLowerCase())
+         );
+      }
+      console.log(filteredProducts);
+      if (countryFilter.is_active) {
+         filteredProducts.filter((product) => {
+            product.country_of_origin
+               .toLowerCase()
+               .includes(countryFilter.value.toLowerCase());
+         });
+      }
+      if (priceFilter.is_active) {
+         filteredProducts.filter((product) => {
+            product.price > priceFilter[0] && product.price < priceFilter[1];
+         });
+      }
+      setFilterProducts(filteredProducts);
+   }
 
-    useEffect(() => {
-        setFilterProducts(products)
-    }, [products]);
+   function uniqueCountries(arr) {
+      let uniqueValues = arr
+         .map((e) => e.country_of_origin)
+         .filter(
+            (value, index, current_value) =>
+               current_value.indexOf(value) === index
+         );
+      return uniqueValues;
+   }
 
-    const handleFilterByCountry = (country) => {
-        const filtered = products.filter((product) => product.country_of_origin === country);
-        setFilterProducts(filtered);
-    };
-
-    const handlePriceChange = (newValue) => {
-        setPriceRange(newValue);
-        const filtered = products.filter((product) => product.price >= newValue[0] && product.price <= newValue[1]);
-        setFilterProducts(filtered)
-        setPriceRangeText(`$${newValue[0]} - $${newValue[1]}`)
-    };
-
-    const handleSearch = () => {
-        const filtered = products.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()));
-        setFilterProducts(filtered)
-    };
-
-    const handleInputChange = (event) => {
-        const query = event.target.value;
-        setSearchQuery(query);
-        handleSearch(query)
-    };
-
-    console.log('filterProducts:', filterProducts);
-    return  (
-        <>
-           <h1 className="productsTitle">All Products</h1>
-           <div className="productBlurb">
-            <p>Welcome to the ultimate selection of the very best Canned Air from all around the world. Whether you're choosing Canned Air for yourself or to give as a gift you will find the highest quality selections below. Additionally, we are constantly updating our products so check back regularly for the best deals on Canned Air.</p>
-           </div>
-           <div className="sidebar">
-                <h3>Search for Products</h3>
-                <input className="inputBar" type="text" value={searchQuery} onChange={handleInputChange}/>
-                <button className="searchButton" onClick={handleSearch}>Search</button>
-                
-                <h3>Filter By Price</h3>
-                <PriceSlider className="priceSlider" range min={0} max={50} value={priceRange} onChange={handlePriceChange} />
-                <div className="priceRange">{priceRangeText}</div>
-                
-                <h3>Filter By Country</h3>
-                <button className="countryButton" onClick={()=> handleFilterByCountry("US")}>US</button>
-                <button className="countryButton" onClick={()=> handleFilterByCountry("China")}>China</button>
-                <button className="countryButton" onClick={()=> handleFilterByCountry("Germany")}>Germany</button>
-            </div>
-                <div className="listProd">
-                    {filterProducts.length === 0 ? (
-                        <h1>No Products Listed</h1>
-                    ) : (
-                        filterProducts.map((product) => (
-                        <ProductCard  product={product} />
-                        ))
-                    )}
-                </div>
-           
-
-        </>
-    );
-
-    
+   return (
+      <>
+         <FilterMenu />
+         <div className="listProd">
+            {filterProducts.length === 0 ? (
+               <h1>No Products Listed</h1>
+            ) : (
+               filterProducts.map((e, i) => <ProductCard product={e} key={i} />)
+            )}
+         </div>
+      </>
+   );
 }
-
-
-export default ProductsPage;

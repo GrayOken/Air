@@ -5,10 +5,10 @@ const prisma = new PrismaClient();
 
 router.post('/', async (req, res, next)=>{
     try{
-        const product = await prisma.product.create({
+        const user = await prisma.cart.create({
             data:req.body
         })
-        res.send(product)
+        res.send(user)
     }catch(error){
         next(error)
     }
@@ -16,21 +16,20 @@ router.post('/', async (req, res, next)=>{
 
 router.get('/', async (req, res, next)=>{
     try{
-        const allProducts = await prisma.product.findMany();
-        res.send(allProducts)
+        const allUsers = await prisma.user.findMany();
+        res.send(allUsers)
     }catch(error){
         next(error)
     }
 })
 
 router.get('/:id', async (req, res, next)=>{
-    try{
-        const productId = await prisma.product.findUnique({
+    try {
+        const singleUser = await prisma.user.findUnique({
             where:{
                 id: Number(req.params.id)
             }
-        });
-        res.send(productId)
+        })
     }catch(error){
         next(error)
     }
@@ -38,13 +37,13 @@ router.get('/:id', async (req, res, next)=>{
 
 router.put('/:id', async (req, res, next)=>{
     try{
-        const product = await prisma.product.update({
+        const user = await prisma.user.update({
             where:{
                 id: Number(req.params.id)
             },
             data:req.body
         })
-        res.send(product)
+        res.send(user)
     }catch(error){
         next(error)
     }
@@ -52,12 +51,12 @@ router.put('/:id', async (req, res, next)=>{
 
 router.delete('/:id', async (req, res, next)=>{
     try{
-        const product = await prisma.product.delete({
+        const user = await prisma.user.delete({
             where:{
                 id: Number(req.params.id)
             }
         });
-        res.send(product)
+        res.send(user)
     }catch(error){
         next(error)
     }

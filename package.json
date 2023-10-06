@@ -9,8 +9,11 @@
     "preview": "vite preview",
     "server": "nodemon --watch server -e js,html server/index.js",
     "less": "less-watch-compiler src/style src index.less",
-    "seed": "node db/seed.js",
+    
     "csv": "node ../assets/Canned_Air_Products.csv"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^5.3.0",
