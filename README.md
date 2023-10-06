@@ -9,15 +9,15 @@ You can do it with the next commands:
 
 For a global installation:
 
-```npm install -g concurrently```
+`npm install -g concurrently`
 or
-```yarn global add concurrently```
+`yarn global add concurrently`
 
 For a local installation:
 
-```npm install --save-dev concurrently```
+`npm install --save-dev concurrently`
 or
-```yarn add --dev concurrently```
+`yarn add --dev concurrently`
 
 # Installation
 
