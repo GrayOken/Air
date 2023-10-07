@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLoginMutation, useRegisterMutation } from "../../reducers/auth";
 import TextInput from "../Inputs/TextInput.jsx";
 import { useNavigate } from "react-router-dom";
+import "./AuthForm.css";
 
 /**
  * AuthForm allows a user to either login or register for an account.
@@ -55,7 +56,9 @@ function AuthForm() {
             Password
             <TextInput vl={password} type={"password"} chg={setPassword} />
          </label>
-         <button type="submit">{authType}</button>
+         <button type="submit" className="auth-form-submit">
+            {authType}
+         </button>
       </form>
    );
 
@@ -77,27 +80,31 @@ function AuthForm() {
             Last Name
             <TextInput vl={last_name} type={"text"} chg={setLast_name} />
          </label>
-         <button type="submit">{authType}</button>
+         <button type="submit" className="auth-form-submit">
+            {authType}
+         </button>
       </form>
    );
 
    return (
-      <main>
-         <h1>{authType}</h1>
-         {authType === "Login" ? loginForm : registerForm}
-         <p>
-            {oppositeAuthCopy}{" "}
-            <a
-               onClick={() => {
-                  setIsLogin(!isLogin);
-               }}
-            >
-               {oppositeAuthType}
-            </a>
-         </p>
-         {loading && <p>Logging in...</p>}
-         {error && <p>{error}</p>}
-      </main>
+      <div className="auth-container">
+         <div className="auth-form-container">
+            <h1>{authType}</h1>
+            {authType === "Login" ? loginForm : registerForm}
+            <div className="auth-form-switch">
+               {oppositeAuthCopy}{" "}
+               <a
+                  onClick={() => {
+                     setIsLogin(!isLogin);
+                  }}
+               >
+                  {oppositeAuthType}
+               </a>
+            </div>
+            {loading && <p>Logging in...</p>}
+            {error && <p>{error}</p>}
+         </div>
+      </div>
    );
 }
 
