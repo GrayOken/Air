@@ -6,6 +6,8 @@
 body {
     margin: 0;
     padding: 0;
+    min-width: 100vw;
+    min-height: 100vh;
     font-family: 'Bebas Neue', sans-serif;
-    background-image: linear-gradient(to bottom right, #e0fbfd, #fde2e0);
+    background-image: linear-gradient(to bottom right, #e0fbfd, #fde0fb, #fbfde0);
 }

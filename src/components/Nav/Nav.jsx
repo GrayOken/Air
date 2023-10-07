@@ -50,7 +50,6 @@ export default function Nav() {
             <Link to={"/cart"} className="link-item">
                Cart
             </Link>
-
             {loggedIn ? [accountLink, logout] : signUp}
          </ul>
       </nav>
