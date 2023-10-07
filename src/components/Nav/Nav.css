@@ -35,5 +35,6 @@ nav {
 }
 
 .link-item:hover {
-    background-color: #fdfef1
+    background-color: #fdfef1;
+    cursor: pointer
 }
