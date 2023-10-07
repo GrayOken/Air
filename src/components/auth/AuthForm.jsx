@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLoginMutation, useRegisterMutation } from "../../reducers/auth";
 import TextInput from "../Inputs/TextInput.jsx";
-
+import { Link } from "react-router-dom";
 /**
  * AuthForm allows a user to either login or register for an account.
  */
@@ -79,7 +79,7 @@ function AuthForm() {
                {oppositeAuthType}
             </a>
          </p>
-         {loading && <p>Logging in...</p>}
+         {loading && <Link to="/Account"></Link> }
          {error && <p>{error}</p>}
       </main>
    );

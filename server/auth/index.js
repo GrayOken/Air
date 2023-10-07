@@ -32,8 +32,8 @@ router.post("/register", async (req, res, next)=>{
 
 
 router.post("/login", async (req, res, next)=>{
-    const salt_rounds = 5;
-    const hashedPassword = await bcrypt.hash(req.body.password, salt_rounds)
+    // const salt_rounds = 5;
+    // const hashedPassword = await bcrypt.hash(req.body.password, salt_rounds)
     
     try {
         const user = await prisma.user.findUnique({

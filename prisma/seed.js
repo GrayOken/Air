@@ -30,11 +30,11 @@ async function seed() {
             }
         })
     }
-    // for (let product of products) {
-    //     await prisma.product.create({
-    //         data: product
-    //     })
-    // }
+    for (let product of products) {
+        await prisma.product.create({
+            data: product
+        })
+    }
     
     console.log("Database seeded")
 }
