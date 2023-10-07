@@ -13,7 +13,7 @@ export default function Nav() {
          Account
       </Link>
    );
-   const signUp = <Link className="link-item">Sign-Up</Link>;
+   const signUp = <Link to={"/login"} className="link-item">Sign-Up</Link>;
 
    return (
       <nav className="Navbar">

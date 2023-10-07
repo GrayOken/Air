@@ -4,7 +4,7 @@ import { useGetProductsQuery } from "./reducers/api";
 import Home from "./pages/Home.jsx";
 import Products from "./pages/Products";
 import SingleProduct from "./pages/SingleProduct";
-import AuthForm from "./components/Auth/AuthForm";
+import AuthForm from "./components/auth/AuthForm";
 import Account from "./pages/Account.jsx";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";

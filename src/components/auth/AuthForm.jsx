@@ -32,7 +32,7 @@ function AuthForm() {
       setError(null);
 
       const authMethod = isLogin ? login : register;
-      const credentials = { username, password, first_name, last_name, role };
+      const credentials = { username, password };
 
       try {
          setLoading(true);
@@ -49,20 +49,13 @@ function AuthForm() {
          <form onSubmit={attemptAuth} name={authType}>
             <label>
                Username
-               {/*<input*/}
-               {/*  type="text"*/}
-               {/*  name="username"*/}
-               {/*  onChange={(event) => {*/}
-               {/*    setUsername(event.target.value);*/}
-               {/*  }}*/}
-               {/*/>*/}
                <TextInput vl={username} type={"text"} chg={setUsername} />
             </label>
             <label>
                Password
                <TextInput vl={password} type={"password"} chg={setPassword} />
             </label>
-            <label>
+            {/* <label>
                First Name
                <TextInput vl={first_name} type={"text"} chg={setFirst_name} />
             </label>
@@ -73,7 +66,7 @@ function AuthForm() {
             <label>
                Role
                <TextInput vl={role} type={"text"} chg={setRole} />
-            </label>
+            </label> */}
             <button type="submit">{authType}</button>
          </form>
          <p>
