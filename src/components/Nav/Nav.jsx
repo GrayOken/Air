@@ -31,6 +31,9 @@ export default function Nav() {
                Products
             </Link>
             {loggedIn ? accountLink : signUp}
+            <Link to={"/cart"} className="link-item">
+               Cart
+            </Link>
          </ul>
       </nav>
    );
