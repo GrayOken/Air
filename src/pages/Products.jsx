@@ -4,6 +4,7 @@ import { useGetProductsQuery } from "../reducers/api";
 import ProductCard from "../components/Products/ProductCard";
 import FilterMenu from "../components/Products/FilterMenu";
 import { setAllCountries } from "../reducers/products";
+import "../app.css";
 
 export default function Products() {
    const [filterProducts, setFilterProducts] = useState([]);
@@ -19,28 +20,28 @@ export default function Products() {
    }, [searchFilter, countryFilter, priceFilter, products]);
 
    function handleFilter() {
-      let filteredProducts = products;
       console.log(priceFilter.value);
       console.log(countryFilter.value);
       console.log(searchFilter.value);
+      let filteredProducts = products;
       if (searchFilter.is_active) {
-         filteredProducts.filter((product) =>
+         filteredProducts = filteredProducts.filter((product) =>
             product.name
                .toLowerCase()
                .includes(searchFilter.value.toLowerCase())
          );
       }
-      console.log(filteredProducts);
       if (countryFilter.is_active) {
-         filteredProducts.filter((product) => {
-            product.country_of_origin
-               .toLowerCase()
-               .includes(countryFilter.value.toLowerCase());
+         filteredProducts = filteredProducts.filter((product) => {
+            return product.country_of_origin === countryFilter.value;
          });
       }
       if (priceFilter.is_active) {
-         filteredProducts.filter((product) => {
-            product.price > priceFilter[0] && product.price < priceFilter[1];
+         filteredProducts = filteredProducts.filter((product) => {
+            return (
+               product.price >= Number(priceFilter.value[0]) &&
+               product.price <= Number(priceFilter.value[1])
+            );
          });
       }
       setFilterProducts(filteredProducts);
@@ -57,15 +58,15 @@ export default function Products() {
    }
 
    return (
-      <>
+      <div className="products-container">
          <FilterMenu />
-         <div className="listProd">
+         <div className="products-list">
             {filterProducts.length === 0 ? (
                <h1>No Products Listed</h1>
             ) : (
                filterProducts.map((e, i) => <ProductCard product={e} key={i} />)
             )}
          </div>
-      </>
+      </div>
    );
 }

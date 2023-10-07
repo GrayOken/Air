@@ -1,0 +1,19 @@
+.products-container {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.products-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.filtered-products {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}

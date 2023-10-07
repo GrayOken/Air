@@ -18,7 +18,10 @@ export default function Nav() {
    return (
       <nav className="Navbar">
          <Link to={"/"}>
-            <img src={"../../assets/AirLogoSmall.png"} className={"home-btn"} />
+            <img
+               src={"../../assets/AirLogoSmallNoBack.png"}
+               className={"home-btn"}
+            />
          </Link>
          <ul className={"link-container"}>
             <Link to={"/"} className="link-item">

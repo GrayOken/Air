@@ -32,7 +32,7 @@ const productSlice = createSlice({
             return state
         },
         setPrice(state, action) {
-            state.priceFilter.value = action.payload
+            state.priceFilter.value = action.payload.split(",")
             if (action.payload.length !== 0) {
                 state.priceFilter.is_active = true
             } else {

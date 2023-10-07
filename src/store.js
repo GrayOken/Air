@@ -9,7 +9,7 @@ const store = configureStore({
         [storeApi.reducerPath]: storeApi.reducer,
         auth: authReducer,
         data:dataReducer,
-        product:productsReducer
+        product:productsReducer,
 
     },
     middleware: (getDefaultMiddleware) =>

@@ -12,9 +12,9 @@ export default function Searchbar() {
    return (
       <input
          type="text"
-         placeholder="Search products"
+         placeholder="Search..."
          onChange={handleChange}
-         //  value={searchValue}
+         value={searchValue}
       />
    );
 }

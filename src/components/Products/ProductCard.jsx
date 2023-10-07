@@ -1,24 +1,25 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import ProductDetails from "./ProductDetails";
+import "./ProductCard.css";
 
-function ProductCard({ product, onClick }) {
-    const navigate = useNavigate();
-    
-    const handleClick = () => {
-      navigate(`/products/${product.id}`);
-    };
-
-    return (
-      <>
-        {product ? (
-          <div className="productContainer" onClick={handleClick}>
-            <ProductDetails product={product} showDescription={false} />
-          </div>
-        ) : (<h1>No Product Listed</h1>)}
-      </>
-  );
-  
+export default function ProductCard({ product }) {
+   const navigate = useNavigate();
+   return (
+      <div
+         className="product-card"
+         onClick={() => navigate(`/products/${product.id}`)}
+      >
+         <div className="product-card-image-container">
+            <img src={product.image_url} className="product-card-image" />
+         </div>
+         <div className="product-card-info">
+            <p className="product-card-name">{product.name}</p>
+            <div className="product-card-info-right">
+               <p className="product-card-price">{product.price}/can</p>
+               <p className="product-card-country">
+                  Made in {product.country_of_origin}
+               </p>
+            </div>
+         </div>
+      </div>
+   );
 }
-
-export default ProductCard;
