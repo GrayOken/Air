@@ -47,14 +47,10 @@ export default function Nav() {
             <Link to={"/Products"} className="link-item">
                Products
             </Link>
-
-            {loggedIn ? accountLink : signUp}
             <Link to={"/cart"} className="link-item">
                Cart
             </Link>
-
             {loggedIn ? [accountLink, logout] : signUp}
-
          </ul>
       </nav>
    );

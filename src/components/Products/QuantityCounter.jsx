@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../reducers/cart";
 import { useEditCartProductMutation } from "../../reducers/api";
 
-
 export default function QuantityCounter() {
    function handleSubmit(event) {
       event.preventDefault();
@@ -12,11 +11,10 @@ export default function QuantityCounter() {
 
    const handleAddToCart = (product) => {
       dispatch(addToCart(product));
-   }
-
+   };
 
    return (
-      <div>
+      <div id="QuantityCounter">
          <form action="">
             <select name="cartQuantity" id="cartQuantity">
                <option value="1">1</option>
@@ -32,7 +30,8 @@ export default function QuantityCounter() {
                <option value="11">11</option>
                <option value="12">12</option>
             </select>
-            <input onClick={handleAddToCart}
+            <input
+               onClick={handleAddToCart}
                type="submit"
                name="addToCart"
                id="addToCart"
