@@ -1,19 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "./Nav.css";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useLogoutMutation } from "../../reducers/auth";
+import "./Nav.css";
 
 export default function Nav() {
+   const [logmeout] = useLogoutMutation();
+   const navigate = useNavigate();
    var loggedIn = useSelector((state) => {
       return state.auth.credentials.user.userId !== null;
    });
 
+   function logoutHandler() {
+      logmeout();
+      navigate("/");
+   }
+
    const accountLink = (
-      <Link to={"/Account"} className="link-item">
+      <Link to={"/Account"} className="link-item" key={1}>
          Account
       </Link>
    );
-   const signUp = <Link className="link-item">Sign-Up</Link>;
+   const logout = (
+      <div className="link-item" onClick={logoutHandler} key={2}>
+         Logout
+      </div>
+   );
+   const signUp = (
+      <Link to={"/login"} className="link-item">
+         Log in
+      </Link>
+   );
 
    return (
       <nav className="Navbar">
@@ -30,7 +47,7 @@ export default function Nav() {
             <Link to={"/Products"} className="link-item">
                Products
             </Link>
-            {loggedIn ? accountLink : signUp}
+            {loggedIn ? [accountLink, logout] : signUp}
          </ul>
       </nav>
    );
