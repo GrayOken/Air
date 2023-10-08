@@ -32,7 +32,7 @@ function SingleProduct() {
                         {data.description}
                      </div>
                      <div className="single-product-menu-chip">
-                        <QuantityCounter product={productId} />
+                        <QuantityCounter  product = {data.id} />
                         <div>
                            <div className="single-product-price">
                               {data.price + " per can"}
