@@ -18,7 +18,8 @@
     position: sticky;
     border-radius: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.4);
-    background-image: linear-gradient(to bottom right, #e0fbfd, #fbfde0);
+    background-color: #e0fbfd;
+    padding: 1rem;
 }
 
 .menu-item {
@@ -30,7 +31,7 @@
 }
 
 h1 {
-    font-size: 2vw;
+    font-size: 1.8vw;
     text-align: center;
 }
 

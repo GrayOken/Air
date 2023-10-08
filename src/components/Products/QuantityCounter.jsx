@@ -9,7 +9,7 @@ export default function QuantityCounter({product}) {
       console.log(product)
    }
    return (
-      <div>
+      <div id="QuantityCounter">
          <form action="">
             <select name="cartQuantity" id="cartQuantity">
                <option value="1">1</option>

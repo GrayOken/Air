@@ -3,7 +3,7 @@ nav {
     top: 0;
     height: 8vh;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0 );
+    background-image: linear-gradient(to right, rgba(), rgba());
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,5 +35,6 @@ nav {
 }
 
 .link-item:hover {
-    background-color: #fdfef1
+    background-color: #fbfde0;
+    cursor: pointer
 }

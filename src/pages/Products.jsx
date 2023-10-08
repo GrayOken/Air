@@ -20,9 +20,6 @@ export default function Products() {
    }, [searchFilter, countryFilter, priceFilter, products]);
 
    function handleFilter() {
-      console.log(priceFilter.value);
-      console.log(countryFilter.value);
-      console.log(searchFilter.value);
       let filteredProducts = products;
       if (searchFilter.is_active) {
          filteredProducts = filteredProducts.filter((product) =>

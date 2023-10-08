@@ -1,8 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createReducer } from "@reduxjs/toolkit";
 import { storeApi } from "./reducers/api";
-import authReducer from './reducers/auth'
-import dataReducer from './reducers/api'
-import productsReducer from './reducers/products'
+import authReducer from './reducers/auth';
+import dataReducer from './reducers/api';
+import productsReducer from './reducers/products';
+import cartReducer from './reducers/cart'
+
+
 
 const store = configureStore({
     reducer: {
@@ -10,6 +13,8 @@ const store = configureStore({
         auth: authReducer,
         data:dataReducer,
         product:productsReducer,
+        cart:cartReducer
+
 
     },
     middleware: (getDefaultMiddleware) =>
