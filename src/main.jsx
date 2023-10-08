@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./app";
 import Nav from "./components/Nav/Nav";
+import App from "./app";
+import Footer from "./components/Footer/Footer";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import store from "./store";
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <div className="app-container">
                <Nav />
                <App />
+               <Footer />
             </div>
          </Provider>
       </BrowserRouter>

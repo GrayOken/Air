@@ -1,0 +1,38 @@
+.footer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 20vh;
+    background-color: aliceblue;
+}
+
+.footer-left {
+    display: flex;
+    width: 30vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-mid {
+    display: flex;
+    width: 30vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right {
+    display: flex;
+    width: 30vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-qr {
+    width: 20%;
+    height: fit-content;
+}
+
+ul {
+    list-style-type: none;
+}
