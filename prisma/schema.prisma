@@ -9,19 +9,19 @@ datasource db {
 
 model Cart {
   id          Int           @id @default(autoincrement())
-  user        User          @relation(fields: [user_id], references: [id])
   user_id     Int
   is_cart     Boolean
+  user        User          @relation(fields: [user_id], references: [id])
   CartProduct CartProduct[]
 }
 
 model CartProduct {
   id         Int     @id @default(autoincrement())
-  product    Product @relation(fields: [product_id], references: [id])
   product_id Int
-  cart       Cart    @relation(fields: [cart_id], references: [id])
   cart_id    Int
   quantity   Int
+  cart       Cart    @relation(fields: [cart_id], references: [id])
+  product    Product @relation(fields: [product_id], references: [id])
 }
 
 model Product {
