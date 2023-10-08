@@ -1,8 +1,13 @@
-export default function QuantityCounter() {
-   function handleSubmit(event) {
-      event.preventDefault();
-   }
 
+export default function QuantityCounter({product}) {
+   // const [addItemToCart] = UseSelector(state => state.cart)
+   // function handleSubmit(event) {
+   //    event.preventDefault();
+   // }
+   const handleAddToCart = (product) => {
+      dispatch(addToCart(product));
+      console.log(product)
+   }
    return (
       <div>
          <form action="">
@@ -21,6 +26,7 @@ export default function QuantityCounter() {
                <option value="12">12</option>
             </select>
             <input
+             onClick={handleAddToCart}
                type="submit"
                name="addToCart"
                id="addToCart"

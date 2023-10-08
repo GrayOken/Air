@@ -95,9 +95,22 @@ export const storeApi = createApi({
 const dataSlice = createSlice({
     name:"data",
     initialState:{
-        products:[]
+        products:[],
+        cart: []
     },
-    reducers:{},
+    reducers:{
+        
+            addToCart:(state, action) => {
+                console.log(action.payload)
+                state.cart.push(action.payload)
+            },
+            removeFromCart: (state, action) => {
+                const index = state.findIndex(item => item.id === action.payload);
+                if (index !== -1) {
+                  state.cart.splice(index, 1);
+                }
+            }
+    },
     extraReducers: (builder)=>{
        
         builder.addMatcher(storeApi.endpoints.getProducts.matchFulfilled, (state, {payload})=>{
@@ -119,9 +132,13 @@ const dataSlice = createSlice({
             state.products.push(payload);
             return state;
         })
+
     }
 })
 
 export default dataSlice.reducer;
+
+export const { addToCart, removeFromCart } = dataSlice.actions;
+
 
 export const {useAddProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditProductMutation, useDeleteProductMutation, useAddUserMutation, useGetUsersQuery, useGetUserByIdQuery, useEditUserMutation, useDeleteUserMutation, useGetCartByIdQuery, useUpdateCartMutation, useDeleteCartMutation, useGetUsersCartsQuery, useGetUsersActiveCartQuery, useEditCartProductMutation} = storeApi

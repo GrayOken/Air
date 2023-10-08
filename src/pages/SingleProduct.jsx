@@ -20,7 +20,7 @@ function SingleProduct() {
                   <button onClick={() => navigate("/products")}>
                      Back to Products
                   </button>
-                  <QuantityCounter />
+                  <QuantityCounter product={productId} />
                </div>
             </div>
          )}

@@ -65,11 +65,11 @@ router.get('/user/:userId/active', async (req, res, next)=>{
         const active = await prisma.cart.upsert({
             where:{
                 is_cart: true,
-                userId: Number(req.params.userId)
+                user_id: Number(req.params.userId)
             },
             create:{
                 is_cart: true,
-                userId: Number(req.params.userId)
+                user_id: Number(req.params.userId)
             }
         })
         res.send(active)
