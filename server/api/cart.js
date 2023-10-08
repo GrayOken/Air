@@ -47,7 +47,11 @@ router.get('/user/:userId', async (req, res, next)=>{
     try{
         const userCarts = await prisma.cart.findMany({
             where:{
-                userId: Number(req.params.userId)
+                user_id: {
+                   equals: Number(req.params.userId)
+                }
+            }, include: {
+                CartProduct: true
             }
         })
         res.send(userCarts)
