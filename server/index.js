@@ -3,11 +3,23 @@ const app = express();
 const ViteExpress = require("vite-express")
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 
 const PORT = 3000;
 
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+
+var storage = multer.diskStorage(
+    {
+        destination: './public/images',
+        filename: function (req, file, cb ) {
+            cb( null, file.originalname);
+        }
+    }
+);
+
+const upload = multer({ storage: storage } )
 
 const cors = require("cors");
 app.use(cors());
@@ -19,8 +31,11 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "public", "images")));
 app.use("/api", require("./api"));
 app.use("/auth", require("./auth"))
-app.use("/api/cart", require("./api/cart"));
 
+app.post("/uploadfile", upload.single('productImage'), (req, res, next) => {
+    console.log(req.file.originalname + " file successfully uploaded !!");
+    res.sendStatus(200);
+});
 
 app.use((req, res, next) => {
   console.log("req headers", req.headers);

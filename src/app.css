@@ -94,3 +94,59 @@
 #QuantityCounter {
     width: 50%;
 }
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100vh;
+}
+
+.admin-btns {
+    display: flex;
+    flex-direction: row;
+}
+
+.admin-btn {
+    display: flex;
+    font-size: 3vw;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+
+.left {
+    background-image: linear-gradient(to right, #e0fbfd, #fde0fb);
+}
+
+.right {
+    background-image: linear-gradient(to right,#fde0fb, #fbfde0);
+}
+
+.active {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75);
+    filter: saturate(4);
+}
+
+.admin-panel-container {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: 1s;
+    margin: 10px;
+    border-radius: 10px;
+    min-width: 50vw;
+    height: 50vh;
+}

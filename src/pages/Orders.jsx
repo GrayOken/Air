@@ -5,7 +5,7 @@ import "../components/account/Orders.css"
 import { useNavigate } from "react-router-dom";
 
 
-const Orders = () => {
+function Order() {
     const products = useSelector(state => state.data.products);
     const me = useSelector(state => state.auth.credentials.user);
     const { data: carts, isLoading } = useGetUsersCartsQuery(me.userId);
@@ -46,7 +46,7 @@ const Orders = () => {
                             )}
                         </div>
                     ))}
-                            <div className="account-back-button" onClick={handleBackToAccount}>
+                            <div className="account-back-button" onCl>
                                 <button>BACK</button>
                             </div>
                 </>
@@ -55,4 +55,4 @@ const Orders = () => {
     );
 }
 
-export default Orders
+export default Orders;

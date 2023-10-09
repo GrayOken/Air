@@ -1,80 +1,89 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEditSubmitCartMutation } from '../reducers/api';
+
+import { useSelector } from "react-redux";
+import cart from "../reducers/cart";
 import { removeFromCart } from '../reducers/cart';
+import { useEditSubmitCartMutation } from "../reducers/api";
+import { useDispatch } from "react-redux";
 
-export default function Cart() {
-  const cartItems = useSelector((state) => state.cart.items);
-  const products = useSelector((state) => state.data.products);
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+function Cart() {
+   // const cartItems = useSelector(state => state.cart.items)
+   const cartItems = useSelector(state => {
+      console.log(state.cart.items);
+      return state.cart.items;
+  });
+  
+   const products = useSelector(state => state.data.products)
+   // const [submitCart, { isLoading: submitLoading, isError: submitError }] = useEditSubmitCartMutation();
+   const {data, isLoading} = useEditSubmitCartMutation();
+   const [submitCart] = useEditSubmitCartMutation();
+   const dispatch = useDispatch();
 
-   const [editSubmitCart] = useEditSubmitCartMutation();
 
-  const handleRemoveFromCart = (id) => {
-   dispatch(removeFromCart(id));
- };
+   // console.log(products)
+   // console.log(me)
 
-  const handleCompleteOrder = async () => {
-   setIsLoading(true);
+   if (isLoading) {
+      return <h1>Loading...</h1>;
+  }
 
+   const handleRemoveFromCart = (itemId) => {
+      console.log("Removing product with ID:", itemId);
+      dispatch(removeFromCart(itemId));
+   };
+
+ const handleCompleteOrder = async () => {
    try {
-      console.log('Before calling editSubmitCart');
-      const result = await editSubmitCart({ cartItems: cartItemsWithDetails });
-      console.log('After calling editSubmitCart', result);
-
-     if (result.data) {
-       console.log('Order submitted successfully');
-       dispatch(clearCart());
-     } else {
-       console.error('Error submitting order');
-     }
+      await submitCart(); 
    } catch (error) {
-     console.error('Error submitting order:', error);
-   } finally {
-     setIsLoading(false);
+      console.error("Failed to complete order:", error);
    }
- };
+};
 
-  const cartItemsWithDetails = cartItems.map((item) => {
-   const productDetails = products.find(product => product.id === item.product_id);
-   const totalPrice = item.quantity * productDetails.price;
+   const cartProductIds = cartItems.map((item) => {
+   const productKeys = products.find(product => product.id === item.product_id);
+   const totalPrice = item.quantity * productKeys.price;
    return {
      ...item,
-     ...productDetails,
+     ...productKeys,
      totalPrice
    };
  });
   
- const dynamicTotalPrice = cartItemsWithDetails.reduce((acc, item) => acc + item.totalPrice, 0);
+ const Total = cartProductIds.reduce((acc, item) => acc + item.totalPrice, 0);
 
   return (
     <div>
-      <h2>Your Cart</h2>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {cartItemsWithDetails.length === 0 ? (
+          {cartProductIds.length === 0 ? (
             <p>Your cart is empty</p>
           ) : (
             <>
               <ul>
-                {cartItemsWithDetails.map((item) => (
+                {cartProductIds.map((item) => (
                   <li key={item.id}>
                      {item.name} -- ${item.price} x {item.quantity}
                     <button onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
                   </li>
                 ))}
               </ul>
-              <div>Total: ${dynamicTotalPrice.toFixed(2)}</div>
+              <div>Total: ${Total.toFixed(2)}</div>
               <div className="checkout-button-container">
                   <button className='checkout-button' onClick={handleCompleteOrder}>Complete Your Order</button>
               </div>
             </>
           )}
-        </>
-      )}
     </div>
   );
 }
+
+export default Cart;
+
+
+
+
+
+   
+
+
+
+
+
