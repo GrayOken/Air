@@ -14,11 +14,8 @@
     align-items: center;
 }
 
-.footer-mid {
-    display: flex;
-    width: 30vw;
-    justify-content: center;
-    align-items: center;
+.footer-nav {
+    color: black;
 }
 
 .footer-right {

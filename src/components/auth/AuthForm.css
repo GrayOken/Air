@@ -24,6 +24,22 @@
 
 .auth-form-submit {
     align-self: center;
+    margin-top: 10px;
+    width: 8rem;
+    background-color: #E7F8FC;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: large;
+    text-align: center;
+    cursor: pointer;
+}
+
+.auth-form-submit:hover {
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.2)
+}
+
+.textField {
+    margin: 10px;
 }
 
 form {

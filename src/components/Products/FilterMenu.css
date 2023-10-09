@@ -30,6 +30,11 @@
     align-content: center;
 }
 
+.menu-item label {
+    text-align: center;
+}
+
+
 h1 {
     font-size: 1.8vw;
     text-align: center;
@@ -46,4 +51,8 @@ select {
 
 select:focus{
     min-width: 8cqb
+}
+
+#price {
+    
 }
