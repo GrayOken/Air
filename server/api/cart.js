@@ -154,22 +154,12 @@ router.put("/submit", async (req, res, next) => {
     }
 });
 
-module.exports = router;
-
-
-router.post('/', async (req,res,next)=>{
-    try{
-        const cart = await prisma.cart.create({
-            data: req.body
-        })
-        res.send(cart)
-    }catch(error){
-        next(error)
-    }
-})
-
-
-
 
 
 module.exports = router;
+
+
+
+
+
+
