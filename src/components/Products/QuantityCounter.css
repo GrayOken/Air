@@ -1,0 +1,23 @@
+#cartQuantity {
+    margin: 10px 10px 10px 60px;
+    padding: 5px;
+    width: 50%;
+    
+}
+
+#addToCart {
+    margin: 10px;
+    width: 10rem;
+    height: 2rem;
+    background-color: #a4f8fe;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: large;
+    text-align: center;
+    cursor: pointer;
+}
+
+.single-product-details {
+    margin-top: 20px;
+    margin-left: 30px;
+}

@@ -7,7 +7,6 @@ import SingleProduct from "./pages/SingleProduct";
 import AuthForm from "./components/auth/AuthForm";
 import Account from "./pages/Account.jsx";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
 
 function App() {
@@ -29,7 +28,6 @@ function App() {
             <Route path="/account" element={<Account />} />
             <Route path="/account/admin" element={<Admin />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
          </Routes>
       </>
    );
