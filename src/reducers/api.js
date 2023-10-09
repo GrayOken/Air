@@ -9,16 +9,13 @@ export const storeApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:3000/',
         prepareHeaders: (headers, { getState }) => {
-            console.log("prepareHeaders is running");
 
             const credentials = window.sessionStorage.getItem(CREDENTIALS);
             const parsedCredentials = JSON.parse(credentials || "{}");
             const token = parsedCredentials.token;
-            console.log("token from reducer", token);
             if (token) {
                 headers.set("Authorization", token);
             }
-            console.log("token from session storage:", token);
             return headers;
         },
 }),
@@ -95,16 +92,15 @@ export const storeApi = createApi({
         getUsersCarts: builder.query({
             query: (id)=> 'api/cart/user/'+id
         }),
-        // getUsersActiveCart: builder.query({
-        //     query: (id)=> `api/cart/user/${id}/active`
-        // }),
-        // editCartProduct: builder.mutation({
-        //     query: (body)=>({
-        //         url: `api/cart/${body.cartId}/${body.productId}`,
-        //         method: "POST",
-        //         body: body
-        //     })
-        // })
+        getActiveCart: builder.query({
+            query: ()=> `api/cart/active_cart`
+        }),
+        deleteCartProduct: builder.mutation({
+            query: (id)=>({
+                url: "api/cart_product/"+id,
+                method: "DELETE"
+            })
+        }),
         editSubmitCart : builder.mutation({
             query(data){
                 console.log('Data received by editSubmitCart query:', data);
@@ -116,7 +112,7 @@ export const storeApi = createApi({
                 }
             }
         }),
-        editCartProduct : builder.mutation({
+        addCartProduct: builder.mutation({
             query(data){
                 const {id, ...body}=data;
                 return {
@@ -127,6 +123,20 @@ export const storeApi = createApi({
                 }
             }
         }),
+        editCartProductQuantity: builder.mutation({
+            query: (data)=>({
+                url: "api/cart_product/"+data.id,
+                method: "PUT",
+                body: data
+            })
+        }),
+        SubmitCart: builder.mutation({
+            query: (data)=>({
+                url: "api/cart/submit",
+                method: "POST"
+            })
+        })
+
     }),
 })
 
@@ -134,6 +144,7 @@ const dataSlice = createSlice({
     name:"data",
     initialState:{
         products:[],
+        cartProducts:[],
     },
     reducers:{
     },
@@ -159,6 +170,35 @@ const dataSlice = createSlice({
             return state;
         })
 
+        builder.addMatcher(storeApi.endpoints.getActiveCart.matchFulfilled, (state, {payload})=>{
+            state.cartProducts = payload.CartProduct
+            return state;
+        })
+
+        builder.addMatcher(storeApi.endpoints.deleteCartProduct.matchFulfilled, (state, {payload})=>{
+            state.cartProducts = state.cartProducts.filter((e)=> e.id !== payload.id)
+            return state;
+        })
+
+        builder.addMatcher(storeApi.endpoints.addCartProduct.matchFulfilled, (state, {payload})=>{
+            state.cartProducts = payload.updatedCartProducts
+            return state;
+        })
+
+        builder.addMatcher(storeApi.endpoints.editCartProductQuantity.matchFulfilled, (state, {payload})=>{
+            let productIndex = state.cartProducts.findIndex((e)=> e.id === payload.id)
+            state.cartProducts[productIndex] = {
+                ...state.cartProducts[productIndex],
+                ...payload
+            }
+            return state;
+        })
+
+        builder.addMatcher(storeApi.endpoints.SubmitCart.matchFulfilled, (state, {payload})=>{
+            state.cartProducts = []
+            return state;
+        })
+
     }
 })
 
@@ -167,4 +207,25 @@ export default dataSlice.reducer;
 export const { addToCart, removeFromCart } = dataSlice.actions;
 
 
-export const {useAddProductMutation, useGetProductsQuery, useGetProductByIdQuery, useEditProductMutation, useDeleteProductMutation, useAddUserMutation, useGetUsersQuery, useGetUserByIdQuery, useEditUserMutation, useDeleteUserMutation, useGetCartByIdQuery, useUpdateCartMutation, useDeleteCartMutation, useGetUsersCartsQuery, useGetUsersActiveCartQuery, useEditCartProductMutation, useEditSubmitCartMutation} = storeApi
+export const {
+    useAddProductMutation,
+    useGetProductsQuery,
+    useGetProductByIdQuery,
+    useEditProductMutation,
+    useDeleteProductMutation,
+    useAddUserMutation,
+    useGetUsersQuery,
+    useGetUserByIdQuery,
+    useEditUserMutation,
+    useDeleteUserMutation,
+    useGetCartByIdQuery,
+    useUpdateCartMutation,
+    useDeleteCartMutation,
+    useGetUsersCartsQuery,
+    useGetActiveCartQuery,
+    useDeleteCartProductMutation,
+    useAddCartProductMutation,
+    useEditSubmitCartMutation,
+    useEditCartProductQuantityMutation,
+    useSubmitCartMutation
+} = storeApi

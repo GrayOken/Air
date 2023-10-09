@@ -3,18 +3,18 @@ const router = express.Router();
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
 // get cart by cart id
-router.get('/:id', async (req, res, next)=>{
-    try{
-        const cartId = await prisma.cart.findUnique({
-            where:{
-                id: Number(req.params.id)
-            }
-        })
-        res.send(cartId)
-    }catch(error){
-        next(error)
-    }
-})
+// router.get('/:id', async (req, res, next)=>{
+//     try{
+//         const cartId = await prisma.cart.findUnique({
+//             where:{
+//                 id: Number(req.params.id)
+//             }
+//         })
+//         res.send(cartId)
+//     }catch(error){
+//         next(error)
+//     }
+// })
 // update cart by cart id
 router.put('/:id', async (req, res, next)=>{
     try{
@@ -78,41 +78,7 @@ router.get('/orders/:id', async (req, res, next) => {
      }
  })
 
-router.get('/:id', require('../auth/middleware'), async (req,res,next)=>{
-    try{
-        const userById = await prisma.user.findUnique({
-            where:{
-                id: Number(req.params.id)
-            },
-            include: {
-                Cart: {
-                    where: {
-                        is_cart: true
-                    },
-                    include: {
-                        CartProduct: true
-                    }
-                }
-            }
-        });
-        res.send(userById)
-    }catch(error){
-        next(error)
-    }
-})
-
-// router.post('/:productId/CartProduct', async (req,res,next)=>{
-//     try{
-//         const ProductToActiveCart= await prisma.CartProduct.create({
-//             data: req.body,
-//             productId: Number(req.params.productId)
-//         })
-//         res.send(ProductToActiveCart)
-//     }catch(error){
-//         next(error)
-//     }
-// })
-router.put("/submit", async (req, res, next) => {
+router.post("/submit", async (req, res, next) => {
 
     try {
         async function findOpenOrder() {
@@ -150,4 +116,28 @@ router.put("/submit", async (req, res, next) => {
         next(err);
     }
 });
+
+router.get('/active_cart', async (req,res,next)=>{
+    try{
+        const cart = await prisma.cart.findFirst({
+            where: {
+                user:{
+                    id: req.user.id
+                },
+                is_cart: true,
+            },
+            include: {
+                CartProduct: {
+                    include: {
+                        product: true
+                    }
+                }
+            },
+        });
+        res.send(cart)
+    }catch(error){
+        next(error)
+    }
+})
+
 module.exports = router;

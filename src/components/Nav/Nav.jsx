@@ -58,7 +58,7 @@ export default function Nav() {
             ) : (
                <div></div>
             )}
-            {user.user_id !== null ? [accountLink, logout] : signUp}
+            {user.user_id !== null ? logout : signUp}
          </ul>
       </nav>
    );

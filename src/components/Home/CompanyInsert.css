@@ -20,6 +20,7 @@
     max-width: 60%;
     max-height: 60%;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .insert-blurb {
