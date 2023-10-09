@@ -1,28 +1,30 @@
+import React from 'react'
 import { useGetUsersCartsQuery } from "../reducers/api";
 import { useSelector } from "react-redux";
+import "../components/account/Orders.css"
+import { useNavigate } from "react-router-dom";
 
 
-function Account() {
+const Orders = () => {
     const products = useSelector(state => state.data.products);
     const me = useSelector(state => state.auth.credentials.user);
     const { data: carts, isLoading } = useGetUsersCartsQuery(me.userId);
+    const navigate = useNavigate();
 
     const inactiveCarts = carts ? carts.filter(cart => !cart.is_cart): [];
-   
-    console.log("Carts:", carts);
-    console.log("Inactive Carts:", inactiveCarts);
-   
-    if  (isLoading) {
-        return <h1>Loading...</h1>
+    
+    const handleBackToAccount = () => {
+        navigate('/account')
     }
-
+    
     return (
         <>
-            {inactiveCarts.length === 0 ? (
+            {isLoading ? (
+                <h1>Loading...</h1>
+            ) : inactiveCarts.length === 0 ? (
                 <h1>You have no orders</h1>
             ) : (
                 <>
-                    <h1>Welcome {me.username}</h1>
                     <h1>{me.username}'s Orders</h1>
                     {inactiveCarts.map(order => (
                         <div key={order.id}>
@@ -31,11 +33,11 @@ function Account() {
                                  console.log(order.CartProduct)
                                     const matched = products.find(prod => prod.id === cartProduct.product_id);
                                     return (
-                                        <div key={cartProduct.id}>
+                                        <div className="order-detail-container" key={cartProduct.id}>
+                                            <img src={matched.image_url} className="product-card-image" />
                                             <h2>Purchase Order ID: {cartProduct.id}</h2>
                                             {matched && <h3>Product Name: {matched.name}</h3>}
                                             <h3>Quantity: {cartProduct.quantity}</h3>
-                                            <img src={matched.image_url} className="product-card-image" />
                                         </div>
                                     );
                                 })
@@ -44,10 +46,13 @@ function Account() {
                             )}
                         </div>
                     ))}
+                            <div className="account-back-button" onClick={handleBackToAccount}>
+                                <button>BACK</button>
+                            </div>
                 </>
             )}
         </>
     );
 }
 
-export default Account;
+export default Orders

@@ -7,7 +7,7 @@ export default function CompanyInsert() {
          <div className="insert-img-container">
             <img
                className="insert-img"
-               src={faker.image.urlLoremFlickr({ category: "city" })}
+               src={"assets/insertImage.jpeg"}
                alt=""
             />
          </div>

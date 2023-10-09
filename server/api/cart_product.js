@@ -20,6 +20,15 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
             (i) => i.product_id === product_id
         );
 
+        if (!openOrder) {
+            await prisma.Cart.create({
+                data: {
+                    user_id: req.user.id,
+                    is_cart: true,
+                }
+            })
+        }
+
         if (existingProduct) {
             const updatedCartProduct = await prisma.CartProduct.update({
                 where: { id: existingProduct.id },
@@ -27,7 +36,7 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
                     quantity: existingProduct.quantity + quantity,
                 },
             });
-
+        
             const openOrder = await prisma.Cart.findFirst({
                 where: {
                     user_id: req.user.id,

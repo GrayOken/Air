@@ -7,7 +7,6 @@ import SingleProduct from "./pages/SingleProduct";
 import AuthForm from "./components/auth/AuthForm";
 import Account from "./pages/Account.jsx";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
 
 function App() {
    const products = useGetProductsQuery();
@@ -27,7 +26,6 @@ function App() {
             <Route path="/login" element={<AuthForm />} />
             <Route path="/account" element={<Account />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
          </Routes>
       </>
    );

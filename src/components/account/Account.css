@@ -1,0 +1,25 @@
+.accountSelectors {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.accountSelectors .ordersDetails, .addressDetails, .accountDetails {
+    border-radius: 10px;
+    border: 2px black solid;
+    background-color: white;
+    padding: 15px;
+    margin: 100px;
+}
+
+.accountSelectors .ordersDetails:hover,
+.accountSelectors .addressDetails:hover,
+.accountSelectors .accountDetails:hover {
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+@media (max-width: 750px) {
+    .accountSelectors {
+        flex-direction: column;
+    }
+}

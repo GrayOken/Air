@@ -1,0 +1,43 @@
+.order-detail-container {
+    border-radius: 10px;
+    border: 2px black solid;
+    background-color: white;
+    padding: 15px;
+    margin: 100px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.order-detail-container:hover {
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.product-card-image {
+    height: 250px;
+    width: auto;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.account-back-button {
+    display: flex;
+    justify-content: center;
+}
+
+.account-back-button button {
+    border-radius: 10px;
+    border: 2px black solid;
+    background-color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: x-large;
+    align-items: center;
+    height: 40px;
+    width: 80px;
+    margin: 40px;
+}
+
+.account-back-button button:hover {
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}

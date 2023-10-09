@@ -107,11 +107,12 @@ export const storeApi = createApi({
         // })
         editSubmitCart : builder.mutation({
             query(data){
+                console.log('Data received by editSubmitCart query:', data);
                 const {id, ...body}=data;
                 return {
                     url: 'api/cart/submit',
                     method:"PUT",
-                    body
+                    body: data.cartItems
                 }
             }
         }),

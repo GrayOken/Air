@@ -40,6 +40,17 @@
 
 .single-product-image-container button {
     width: 8rem;
+    height: 2rem;
+    background-color: #a4f8fe;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: large;
+    text-align: center;
+    cursor: pointer;
+}
+
+.single-product-image-container button:hover {
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.2)
 }
 
 .single-product-image-container img {

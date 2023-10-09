@@ -1,80 +1,80 @@
-// import { useGetUsersActiveCartQuery } from "../reducers/api";
-// import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import { removeFromCart } from "../reducers/api";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEditSubmitCartMutation } from '../reducers/api';
+import { removeFromCart } from '../reducers/cart';
 
-// export default function Cart() {
-//    // const entireState = useSelector(state => state);
-//    // console.log(entireState);
-//    const me = useSelector(state => state.auth.credentials.user);
-//    const {data: activeCart, isLoading} = useGetUsersActiveCartQuery(5);
-//    const cart = useSelector(state => state.cart.cart)
+export default function Cart() {
+  const cartItems = useSelector((state) => state.cart.items);
+  const products = useSelector((state) => state.data.products);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-    
-//       const dispatch = useDispatch();
+   const [editSubmitCart] = useEditSubmitCartMutation();
 
-//     const handleRemoveFromCart = (id) => {
-//         dispatch(removeFromCart(id));
-//     };
-   
-//     const total = cart ? cart.reduce((acc, item) => acc + item.price, 0) : 0;
+  const handleRemoveFromCart = (id) => {
+   dispatch(removeFromCart(id));
+ };
 
-   
-//       return (
-//          <div>
-//              {isLoading ? (
-//                  <h1>Loading...</h1>
-//              ) : (
-//                  <>
-//                      <h2>Your Cart</h2>
-//                      {activeCart.length === 0 ? (
-//                          <p>Your cart is empty</p>
-//                      ) : (
-//                          <ul>
-//                              {activeCart.map(item => (
-//                                  <li key={item.id}>
-//                                      {item.name} -- ${item.price}
-//                                      <button onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
-//                                  </li>
-//                              ))}
-//                          </ul>
-//                      )}
-//                      <div>Total: ${total}</div>
-//                  </>
-//              )}
-//          </div>
-//      );
-//  }
+  const handleCompleteOrder = async () => {
+   setIsLoading(true);
 
-// import { Link, useParams } from 'react-router-dom';
-import { useEditCartProductMutation } from "../reducers/api";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useGetCartByIdQuery } from "../reducers/api";
-// import QuantityCounter from "../components/Products/QuantityCounter";
+   try {
+      console.log('Before calling editSubmitCart');
+      const result = await editSubmitCart({ cartItems: cartItemsWithDetails });
+      console.log('After calling editSubmitCart', result);
 
-function Cart() {
-   //  const [addToCart, { isLoading, isError, data }] = useEditCartProductMutation();
-   //  const [itemsCount, setItemsCount] = useState(0);
-      // const [activeCart, { isLoading, isError, data}] = useGetCartByIdQuery()
-    
-   //  useEffect(() => {
-   //      if (data && data.addedToCart) {
-   //          setItemsCount(data.addedToCart.length);
-   //      }
-   //  }, [data]);
+     if (result.data) {
+       console.log('Order submitted successfully');
+       dispatch(clearCart());
+     } else {
+       console.error('Error submitting order');
+     }
+   } catch (error) {
+     console.error('Error submitting order:', error);
+   } finally {
+     setIsLoading(false);
+   }
+ };
 
-   //  const handleAddToCart = async () => {
-   //      await addToCart();
-   //    };
-   //    console.log(addToCart)
-//     return (
-//         <div>
-//           {isLoading && <p>Loading...</p>}
-//           {isError && <p>Error adding to cart.</p>}
-//           <QuantityCounter />
-//         </div>
-//       );
- }
+  const cartItemsWithDetails = cartItems.map((item) => {
+   const productDetails = products.find(product => product.id === item.product_id);
+   const totalPrice = item.quantity * productDetails.price;
+   return {
+     ...item,
+     ...productDetails,
+     totalPrice
+   };
+ });
+  
+ const dynamicTotalPrice = cartItemsWithDetails.reduce((acc, item) => acc + item.totalPrice, 0);
 
-export default Cart;
+  return (
+    <div>
+      <h2>Your Cart</h2>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          {cartItemsWithDetails.length === 0 ? (
+            <p>Your cart is empty</p>
+          ) : (
+            <>
+              <ul>
+                {cartItemsWithDetails.map((item) => (
+                  <li key={item.id}>
+                     {item.name} -- ${item.price} x {item.quantity}
+                    <button onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
+                  </li>
+                ))}
+              </ul>
+              <div>Total: ${dynamicTotalPrice.toFixed(2)}</div>
+              <div className="checkout-button-container">
+                  <button className='checkout-button' onClick={handleCompleteOrder}>Complete Your Order</button>
+              </div>
+            </>
+          )}
+        </>
+      )}
+    </div>
+  );
+}

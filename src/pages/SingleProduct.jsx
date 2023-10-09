@@ -33,7 +33,7 @@ function SingleProduct() {
                      </div>
                      <div className="single-product-menu-chip">
                         <QuantityCounter  product = {data.id} />
-                        <div>
+                        <div className="single-product-details">
                            <div className="single-product-price">
                               {data.price + " per can"}
                            </div>

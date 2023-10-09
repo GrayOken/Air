@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
+
 // get cart by cart id
 router.get('/:id', async (req, res, next)=>{
     try{
@@ -79,6 +80,7 @@ router.get('/orders/:id', async (req, res, next) => {
      }
  })
 
+// get active Cart By Id: useGetCartById
 router.get('/:id', require('../auth/middleware'), async (req,res,next)=>{
     try{
         const userById = await prisma.user.findUnique({
@@ -132,7 +134,7 @@ router.put("/submit", async (req, res, next) => {
                     id: await findOpenOrder(),
                 },
                 data: {
-                    is_cart: true,
+                    is_cart: false,
                 },
             });
         }
@@ -142,7 +144,7 @@ router.put("/submit", async (req, res, next) => {
         const NewOrder = await prisma.Cart.create({
             data: {
                 user_id: req.user.id,
-                is_cart: false,
+                is_cart: true,
             },
         });
 
@@ -151,8 +153,6 @@ router.put("/submit", async (req, res, next) => {
         next(err);
     }
 });
-
-module.exports = router;
 
 
 router.post('/', async (req,res,next)=>{
