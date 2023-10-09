@@ -134,7 +134,7 @@ router.put("/submit", async (req, res, next) => {
                     id: await findOpenOrder(),
                 },
                 data: {
-                    is_cart: true,
+                    is_cart: false,
                 },
             });
         }
@@ -144,7 +144,7 @@ router.put("/submit", async (req, res, next) => {
         const NewOrder = await prisma.Cart.create({
             data: {
                 user_id: req.user.id,
-                is_cart: false,
+                is_cart: true,
             },
         });
 
