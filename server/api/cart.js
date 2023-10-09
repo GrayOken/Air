@@ -59,39 +59,5 @@ router.get('/user/:userId', async (req, res, next)=>{
         next(error)
     }
 }) 
-// Get users cart where cart.is_cart === true
-router.get('/user/:userId/active', async (req, res, next)=>{
-    try{
-        const active = await prisma.cart.upsert({
-            where:{
-                is_cart: true,
-                userId: Number(req.params.userId)
-            },
-            create:{
-                is_cart: true,
-                userId: Number(req.params.userId)
-            }
-        })
-        res.send(active)
-    }catch(error){
-        next(error)
-    }
-})
-// Edit a product in cart
-router.post('/:cartId/:productId', async (req, res, next)=>{
-    try{
-        const cartProduct = await prisma.cartProduct.upsert({
-            where:{
-                cartId: req.params.cartId,
-                productId: req.params.productId,
-            },
-            update:{
-                quantity: req.body.quantity
-            }
-        })
-        res.send(cartProduct)
-    }catch(error){
-        next(error)
-    }
-})
+
 module.exports = router;

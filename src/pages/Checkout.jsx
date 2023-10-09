@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import StateSelector from "../components/Checkout/StateSelector";
 import "./Checkout.css";
 import { Link } from "react-router-dom";
 // import { useGetOrdersByIdQuery } from "../reducers/api";
@@ -79,7 +78,6 @@ function Checkout() {
                         City
                         <input type="text" id="city" name="city" required />
                      </label>
-                     <StateSelector />
 
                      <label for="zip">
                         Zip Code

@@ -22,7 +22,7 @@ router.post("/register", async (req, res, next)=>{
 
         const token = jwt.sign({id:user.id}, process.env.JWT)
 
-        res.status(201).send({token, user:{userId:user.id, username: user.username, admin: user.admin}})
+        res.status(201).send({token, user:{user_id:user.id, username: user.username, admin: user.admin}})
 
     } catch (error) {
         next(error)
@@ -54,7 +54,7 @@ router.post("/login", async (req, res, next)=>{
 
         const token = jwt.sign({id:user.id}, process.env.JWT)
 
-        res.send({token, user:{userId:user.id, username: user.username, admin: user.admin}})
+        res.send({token, user:{user_id:user.id, username: user.username, role: user.role}})
 
     } catch (error) {
         next(error)
