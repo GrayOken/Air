@@ -20,6 +20,15 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
             (i) => i.product_id === product_id
         );
 
+        if (!openOrder) {
+            await prisma.Cart.create({
+                data: {
+                    user_id: req.user.id,
+                    is_cart: true
+                }
+            });
+        }
+
         if (existingProduct) {
             const updatedCartProduct = await prisma.CartProduct.update({
                 where: { id: existingProduct.id },
@@ -35,14 +44,15 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
 
                 },
                 include: {
-                    CartProduct: true,
-                    },
+                    CartProduct: true
+
+                }
             });
 
 
             res.send({addedToCart: openOrder.CartProduct})
         } else {
-            console.log({cartId: openOrder.id,
+            console.log({cart_id: openOrder.id,
                 product_id,
                 quantity})
             const createdCartProduct = await prisma.CartProduct.create({
@@ -67,4 +77,21 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
         next(err);
     }
 });
+
+router.get('/active_cart', async (req,res,next)=>{
+    try{
+        const cart = await prisma.cart.findMany({
+            where: {
+                user_id: req.user.id,
+                is_cart: true,
+            },
+            include: {
+                CartProduct: true,
+            },
+        });
+        res.send(cart)
+    }catch(error){
+        next(error)
+    }
+})
 module.exports = router;

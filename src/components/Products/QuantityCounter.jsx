@@ -2,14 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { addToCart } from '../../reducers/cart';
 import { useEditCartProductMutation } from '../../reducers/api';
 import { useState, useEffect } from "react";
+import { addToCart  } from '../../reducers/cart';
+
 
 
 export default function QuantityCounter({product}) {
    // const products = useSelector(state => state.data.products)
-   const me = useSelector(state => state.auth.credentials.user);
+   const me = useSelector(state => state.cart.items)
    // const dispatch = useDispatch();
-   const [addToCart, { isLoading, isError, data }] = useEditCartProductMutation();
+   const [addToCartMutation, { isLoading, isError, data }] = useEditCartProductMutation();
    const [itemsCount, setItemsCount] = useState(0);
+   const dispatch = useDispatch();
 
    useEffect(() => {
       if (data && data.addedToCart) {
@@ -22,9 +25,10 @@ export default function QuantityCounter({product}) {
    event.preventDefault();
    const selectedQuantity = Number(event.target.cartQuantity.value);
    const productWithQuantity = { product_id: product, quantity: selectedQuantity };
-   console.log(product)
+   console.log(productWithQuantity)
    
-   await addToCart(productWithQuantity);
+   await addToCartMutation(productWithQuantity);
+   dispatch(addToCart(productWithQuantity))
 };
    return (
       <div id="QuantityCounter">
@@ -50,6 +54,7 @@ export default function QuantityCounter({product}) {
                value="Add to Cart"
             />
          </form>
+         <div>Total items in cart: {itemsCount}</div>
       </div>
    );
 }
