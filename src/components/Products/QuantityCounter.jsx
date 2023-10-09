@@ -1,35 +1,25 @@
-import { useDispatch, useSelector } from 'react-redux';
-// import { addToCart } from '../../reducers/cart';
-import { useEditCartProductMutation } from '../../reducers/api';
+import { useDispatch, useSelector } from "react-redux";
+import { useAddCartProductMutation } from "../../reducers/api";
 import { useState, useEffect } from "react";
-import { addToCart  } from '../../reducers/cart';
+import { useNavigate } from "react-router-dom";
 
-
-
-export default function QuantityCounter({product}) {
-   // const products = useSelector(state => state.data.products)
-   const me = useSelector(state => state.cart.items)
-   // const dispatch = useDispatch();
-   const [addToCartMutation, { isLoading, isError, data }] = useEditCartProductMutation();
-   const [itemsCount, setItemsCount] = useState(0);
+export default function QuantityCounter({ product }) {
+   const [addToCartMutation, { isLoading, isError, data }] =
+      useAddCartProductMutation();
    const dispatch = useDispatch();
+   const navigate = useNavigate();
 
-   useEffect(() => {
-      if (data && data.addedToCart) {
-          setItemsCount(data.addedToCart.length);
-          console.log(data)
-      }
-  }, [data]);
-
-  const handleAddToCart = async (event) => {
-   event.preventDefault();
-   const selectedQuantity = Number(event.target.cartQuantity.value);
-   const productWithQuantity = { product_id: product, quantity: selectedQuantity };
-   console.log(productWithQuantity)
-   
-   await addToCartMutation(productWithQuantity);
-   dispatch(addToCart(productWithQuantity))
-};
+   const handleAddToCart = async (event) => {
+      event.preventDefault();
+      const selectedQuantity = Number(event.target.cartQuantity.value);
+      const productWithQuantity = {
+         product_id: product,
+         quantity: selectedQuantity,
+      };
+      console.log(productWithQuantity);
+      await addToCartMutation(productWithQuantity);
+      navigate("/cart");
+   };
    return (
       <div id="QuantityCounter">
          <form onSubmit={handleAddToCart}>
@@ -54,7 +44,6 @@ export default function QuantityCounter({product}) {
                value="Add to Cart"
             />
          </form>
-         <div>Total items in cart: {itemsCount}</div>
       </div>
    );
 }

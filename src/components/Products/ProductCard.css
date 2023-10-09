@@ -47,8 +47,11 @@
 .product-card-info-right {
     display: flex;
     flex-direction: column;
-    font-size: 1vw;
     margin-right: 20px;
+}
+
+.product-card-info-right p {
+    font-size: 1vw;
 }
 
 .product-card-name {

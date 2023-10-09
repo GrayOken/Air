@@ -39,7 +39,7 @@ function AuthForm() {
       try {
          setLoading(true);
          await authMethod(credentials).unwrap();
-         navigate("/account");
+         navigate("/cart");
       } catch (error) {
          setLoading(false);
          setError(error.data);

@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 router.post("/", require('../auth/middleware'), async (req, res, next) => {
     const { product_id, quantity} = req.body;
     try {
-        const openOrder = await prisma.Cart.findFirst({
+        let openOrder = await prisma.Cart.findFirst({
             where: {
                 user_id: req.user.id,
                 is_cart: true,
@@ -16,18 +16,18 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
             },
         });
         console.log(openOrder)
-        const existingProduct = openOrder.CartProduct.find(
-            (i) => i.product_id === product_id
-        );
-
         if (!openOrder) {
-            await prisma.Cart.create({
+            openOrder = await prisma.Cart.create({
                 data: {
                     user_id: req.user.id,
                     is_cart: true
                 }
             });
         }
+        const existingProduct = openOrder.CartProduct.find(
+            (i) => i.product_id === product_id
+        );
+
 
         if (existingProduct) {
             const updatedCartProduct = await prisma.CartProduct.update({
@@ -44,13 +44,16 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
 
                 },
                 include: {
-                    CartProduct: true
-
+                CartProduct: {
+                    include: {
+                        product: true
+                    }
                 }
+            },
             });
 
 
-            res.send({addedToCart: openOrder.CartProduct})
+            res.send({updatedCartProducts: openOrder.CartProduct})
         } else {
             console.log({cart_id: openOrder.id,
                 product_id,
@@ -68,30 +71,45 @@ router.post("/", require('../auth/middleware'), async (req, res, next) => {
                     is_cart: true
                 },
                 include: {
-                    CartProduct: true,
-                },
+                CartProduct: {
+                    include: {
+                        product: true
+                    }
+                }
+            },
             });
-            res.send({addedToCart: updatedOrder.CartProduct})
+            res.send({updatedCartProducts: updatedOrder.CartProduct})
         }
     } catch (err) {
         next(err);
     }
 });
 
-router.get('/active_cart', async (req,res,next)=>{
+router.delete('/:id', async (req, res, next)=>{
     try{
-        const cart = await prisma.cart.findMany({
-            where: {
-                user_id: req.user.id,
-                is_cart: true,
-            },
-            include: {
-                CartProduct: true,
-            },
+        const product = await prisma.CartProduct.delete({
+            where:{
+                id: Number(req.params.id)
+            }
         });
-        res.send(cart)
+        res.send(product)
     }catch(error){
         next(error)
     }
 })
+
+router.put('/:id', async (req, res, next) => {
+    try{
+        const cartProduct = await prisma.CartProduct.update({
+            where:{
+                id: Number(req.params.id)
+            },
+            data: req.body
+        })
+        res.send(cartProduct)
+    }catch(error){
+        next(error)
+    }
+})
+
 module.exports = router;

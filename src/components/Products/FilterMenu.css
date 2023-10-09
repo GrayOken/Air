@@ -33,6 +33,7 @@
 h1 {
     font-size: 1.8vw;
     text-align: center;
+    margin: 0;
 }
 
 input {
