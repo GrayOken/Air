@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useGetProductsQuery, useGetUsersQuery } from "./reducers/api";
+import { useGetProductsQuery } from "./reducers/api";
 import Home from "./pages/Home.jsx";
 import Products from "./pages/Products";
 import SingleProduct from "./pages/SingleProduct";

@@ -1,21 +1,34 @@
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../reducers/cart";
-import { useEditCartProductMutation } from "../../reducers/api";
+import { useDispatch, useSelector } from 'react-redux';
+// import { addToCart } from '../../reducers/cart';
+import { useEditCartProductMutation } from '../../reducers/api';
+import { useState, useEffect } from "react";
 
-export default function QuantityCounter() {
-   function handleSubmit(event) {
-      event.preventDefault();
-   }
 
-   const dispatch = useDispatch();
+export default function QuantityCounter({product}) {
+   // const products = useSelector(state => state.data.products)
+   const me = useSelector(state => state.auth.credentials.user);
+   // const dispatch = useDispatch();
+   const [addToCart, { isLoading, isError, data }] = useEditCartProductMutation();
+   const [itemsCount, setItemsCount] = useState(0);
 
-   const handleAddToCart = (product) => {
-      dispatch(addToCart(product));
-   };
+   useEffect(() => {
+      if (data && data.addedToCart) {
+          setItemsCount(data.addedToCart.length);
+          console.log(data)
+      }
+  }, [data]);
 
+  const handleAddToCart = async (event) => {
+   event.preventDefault();
+   const selectedQuantity = Number(event.target.cartQuantity.value);
+   const productWithQuantity = { product_id: product, quantity: selectedQuantity };
+   console.log(product)
+   
+   await addToCart(productWithQuantity);
+};
    return (
       <div id="QuantityCounter">
-         <form action="">
+         <form onSubmit={handleAddToCart}>
             <select name="cartQuantity" id="cartQuantity">
                <option value="1">1</option>
                <option value="2">2</option>
@@ -31,7 +44,6 @@ export default function QuantityCounter() {
                <option value="12">12</option>
             </select>
             <input
-               onClick={handleAddToCart}
                type="submit"
                name="addToCart"
                id="addToCart"
