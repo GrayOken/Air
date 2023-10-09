@@ -15,11 +15,9 @@ const cartSlice = createSlice({
         },
         removeFromCart: (state, action) => {
           console.log('Removing product with ID:', action.payload);
-            const index = state.items.findIndex(item => item.id === action.payload);
-            console.log('Found index:', index);
-            if (index !== -1) {
-              state.items.splice(index, 1);
-            }
+          state.items = state.items.filter(item => item.product_id !== action.payload);
+            // console.log('Found index:', index);
+           
             console.log('Updated state:', state.items);
           },
           rehydrateCart: (state, action) => {

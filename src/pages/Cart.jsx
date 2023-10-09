@@ -13,7 +13,6 @@ function Cart() {
   });
   
    const products = useSelector(state => state.data.products)
-   // const [submitCart, { isLoading: submitLoading, isError: submitError }] = useEditSubmitCartMutation();
    const {data, isLoading} = useEditSubmitCartMutation();
    const [submitCart] = useEditSubmitCartMutation();
    const dispatch = useDispatch();
