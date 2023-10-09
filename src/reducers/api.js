@@ -52,27 +52,27 @@ export const storeApi = createApi({
         }),
         addUser: builder.mutation({
             query: (body)=>({
-                url: 'api/user'+id,
+                url: 'api/users'+id,
                 method: "POST",
                 body: body
             })
         }),
         getUsers :builder.query({
-            query: ()=> 'api/user/'
+            query: ()=> 'api/users/'
         }),
         getUserById :builder.query({
-            query: (id)=> 'api/user/'+id
+            query: (id)=> 'api/users/'+id
         }),
         editUser : builder.mutation({
             query: (body)=>({
-                url: 'api/user/'+body.id,
+                url: 'api/users/'+body.id,
                 method: "POST",
                 body: body
             }) 
         }),
         deleteUser: builder.mutation({
             query: (id)=>({
-                url: 'api/user/'+id,
+                url: 'api/users/'+id,
                 method: "DELETE"
             })
         }),

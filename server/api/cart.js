@@ -59,7 +59,6 @@ router.get('/user/:userId', async (req, res, next)=>{
 }) 
 
 router.get('/orders/:id', async (req, res, next) => {
-    console.log(req.params.id)
      try {
          const orders = await prisma.user.findUnique({
              where:{
@@ -151,23 +150,5 @@ router.put("/submit", async (req, res, next) => {
         next(err);
     }
 });
-
-module.exports = router;
-
-
-router.post('/', async (req,res,next)=>{
-    try{
-        const cart = await prisma.cart.create({
-            data: req.body
-        })
-        res.send(cart)
-    }catch(error){
-        next(error)
-    }
-})
-
-
-
-
 
 module.exports = router;

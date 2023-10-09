@@ -30,6 +30,7 @@ router.get('/:id', async (req, res, next)=>{
                 id: Number(req.params.id)
             }
         })
+        res.send(singleUser)
     }catch(error){
         next(error)
     }
