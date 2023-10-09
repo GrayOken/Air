@@ -1,0 +1,42 @@
+p {
+    font-size: 2vw;
+}
+
+.add-product-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 1s;
+    border-radius: 10px;
+}
+
+.add-product-form > * {
+    margin: 10px;
+}
+
+.dropzone-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropzone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 50%;
+    min-height: 20vh;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.dropzone-preview {
+    width: 200px;
+    height: auto;
+    margin: 10px;
+}

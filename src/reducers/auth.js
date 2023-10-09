@@ -46,7 +46,7 @@ const authSlice = createSlice({
     initialState: {
         credentials : JSON.parse(window.sessionStorage.getItem(CREDENTIALS)) || {
             token:"",
-            user: {userId:null}
+            user: {user_id:null}
         }
     },
     reducers:{},
@@ -57,7 +57,7 @@ const authSlice = createSlice({
             console.log("logout")
             state.credentials = {
                 token:"",
-                user: {userId:null}
+                user: {user_id:null}
             };
             window.sessionStorage.removeItem(CREDENTIALS)
         });

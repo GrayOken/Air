@@ -7,8 +7,9 @@ import "./Nav.css";
 export default function Nav() {
    const [logmeout] = useLogoutMutation();
    const navigate = useNavigate();
-   var loggedIn = useSelector((state) => {
-      return state.auth.credentials.user.userId !== null;
+
+   var user = useSelector((state) => {
+      return state.auth.credentials.user;
    });
 
    function logoutHandler() {
@@ -50,7 +51,14 @@ export default function Nav() {
             <Link to={"/cart"} className="link-item">
                Cart
             </Link>
-            {loggedIn ? [accountLink, logout] : signUp}
+            {user.role === "Admin" ? (
+               <Link to={"/account/admin"} className="link-item">
+                  Admin
+               </Link>
+            ) : (
+               <div></div>
+            )}
+            {user.user_id !== null ? [accountLink, logout] : signUp}
          </ul>
       </nav>
    );
